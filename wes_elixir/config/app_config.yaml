@@ -58,6 +58,8 @@ api:
           validate_responses: True
           swagger_ui: True
           swagger_json: True
+    general_params:
+        time_format: "%Y-%m-%dT%H:%M:%SZ"
     endpoint_params:
         default_page_size: 5
         timeout_cancel_run: 60

@@ -34,6 +34,7 @@ def register_task_service(app: Flask) -> None:
             },
             timeout=app.config['celery']['monitor']['timeout'],
             authorization=app.config['security']['authorization_required'],
+            time_format=app.config['api']['general_params']['time_format'],
         )
         logger.info('Celery task monitor registered.')
 
