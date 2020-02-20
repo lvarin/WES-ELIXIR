@@ -363,14 +363,7 @@ def __process_workflow_attachments(data: Dict) -> Dict:
             data['api']['request']['workflow_url']
         )
 
-        # Extract name and extensions of workflow
-        workflow_name_ext = os.path.splitext(
-            os.path.basename(
-                data['internal']['cwl_path']
-            )
-        )
-
-    # Get parameter file
+    # Extract name and extensions of workflow
     workflow_name_ext = os.path.splitext(
         os.path.basename(
             data['internal']['cwl_path']
@@ -431,6 +424,9 @@ def __process_workflow_attachments(data: Dict) -> Dict:
 
         # Strip workflow attachments from data
         del data['api']['request']['workflow_attachment']
+    
+    # Add workflow base name (without extension) to document
+    data['api']['run_log']['name'] = str(workflow_name_ext[0])
 
     # Return form data stripped of workflow attachments
     return data

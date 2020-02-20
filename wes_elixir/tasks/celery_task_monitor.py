@@ -32,6 +32,8 @@ class TaskMonitor():
         celery_app: Celery,
         collection: Collection,
         tes_config: Dict[str, str],
+        stdout_endpoint: Optional[str] = None,
+        stderr_endpoint: Optional[str] = None,
         timeout: float = 0,
         authorization: bool = True,
         time_format: str = "%Y-%m-%dT%H:%M:%SZ",
@@ -39,6 +41,8 @@ class TaskMonitor():
         """Starts Celery task monitor daemon process."""
         self.celery_app = celery_app
         self.collection = collection
+        self.stdout_endpoint = stdout_endpoint
+        self.stderr_endpoint = stderr_endpoint
         self.timeout = timeout
         self.authorization = authorization
         self.time_format = time_format
@@ -233,8 +237,16 @@ class TaskMonitor():
     ) -> None:
         """Event handler for successful, failed and canceled Celery
         tasks."""
-        if not self.collection.find_one({'task_id': event['uuid']}):
+        document = self.collection.find_one({'task_id': event['uuid']})
+        if not document:
             return None
+
+        # Create dictionary for internal parameters
+        internal = dict()
+        internal['task_finished'] = datetime.utcfromtimestamp(
+            event['timestamp']
+        )
+
         # Parse subprocess results
         try:
             (returncode, log, tes_ids) = literal_eval(event['result'])
@@ -251,11 +263,20 @@ class TaskMonitor():
             )
             pass
 
-        # Create dictionary for internal parameters
-        internal = dict()
-        internal['task_finished'] = datetime.utcfromtimestamp(
-            event['timestamp']
-        )
+        # Save STDOUT & STDERR
+        internal['stdout'] = log
+        internal['stderr'] = ''
+
+        # Compile API URLs to retreive STDOUT & STDERR
+        if 'run_id' in document:
+            if self.stdout_endpoint:
+                stdout_url = '/'.join([self.stdout_endpoint, document['run_id']])
+            else:
+                stdout_url = 'unavailable'
+            if self.stderr_endpoint:
+                stderr_url = '/'.join([self.stderr_endpoint, document['run_id']])
+            else:
+                stderr_url = 'unavailable'
 
         # Set final state to be set
         document = self.collection.find_one(
@@ -297,8 +318,8 @@ class TaskMonitor():
                 task_logs=task_logs,
                 end_time=internal['task_finished'].strftime(self.time_format),
                 exit_code=returncode,
-                stdout=log,
-                stderr='',
+                stdout=stdout_url,
+                stderr=stderr_url,
             )
         except Exception as e:
             logger.exception(
