@@ -46,5 +46,8 @@ RUN cd /app \
   && cd / \
   && chmod g+w /app/cwl_wes/api/
 
+## Allow modified specs to be written back
+RUN chmod g+w /app/cwl_wes/api/
+
 ## Copy FTP server credentials
 COPY .netrc /root
