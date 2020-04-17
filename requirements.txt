@@ -15,7 +15,7 @@ click==6.7
 clickclick==1.2.2
 connexion==1.5.2
 cryptography==2.3.1
--e git+https://github.com/uniqueg/cwl-tes.git@57a193cabab2444bc9b661f83011837bd5ed571a#egg=cwl-tes
+-e git+https://github.com/ohsu-comp-bio/cwl-tes.git@0e15fae512f9228ac089d569f440a51107654074#egg=cwl-tes
 cwltool==1.0.20181217162649
 decorator==4.3.0
 Flask==1.0.2
@@ -41,7 +41,7 @@ mistune==0.8.4
 mypy-extensions==0.4.1
 networkx==2.2
 prov==1.5.1
-psutil==5.6.6
+psutil==5.4.7
 py-tes==0.3.0
 pycparser==2.19
 PyJWT==1.6.4
