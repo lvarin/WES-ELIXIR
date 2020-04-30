@@ -49,7 +49,9 @@ RUN cd /app \
   && chmod g+w /app/cwl_wes/api/
 
 ## Allow modified specs to be written
-RUN chmod g+w /app/cwl_wes/api/
+RUN chmod g+w /app/cwl_wes/api/ \
+    && chmod g+w /app/cwl_wes/config/ # Same for config
 
-## Copy FTP server credentials
-COPY .netrc /root
+WORKDIR /app/cwl_wes
+
+ENTRYPOINT ["/app/entrypoint.sh"]
