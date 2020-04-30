@@ -35,7 +35,9 @@ RUN cd /app \
   && pip install -r requirements.txt \
   && cd /app/src/cwl-tes \
   && python setup.py develop \
-  && cd /
+  && cd / \
+  && mkdir -p /tmp/user \
+  && chmod 777 /tmp/user
 
 ## Copy remaining app files
 COPY ./ /app
