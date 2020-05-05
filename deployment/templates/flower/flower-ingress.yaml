@@ -8,7 +8,7 @@ kind: Ingress
 metadata:
   labels:
     app: {{ .Values.flower.appName }}
-  name: {{ .Values.flower.appName }}
+  name: {{ .Values.wes.appName }}-{{ .Values.flower.appName }}
 spec:
 {{- if eq .Values.clusterType "openshift" }}
   host: {{ .Values.wes.appName }}-{{ .Values.flower.appName }}.{{ .Values.applicationDomain }}
