@@ -31,7 +31,7 @@ kind: Route
 metadata:
   name: {{ .Values.wes.appName }}
 spec:
-  host: {{ .Values.wes.appName }}.{{ .Values.applicationDomain }}
+  host: {{ .Release.Namespace }}.{{ .Values.applicationDomain }}
   to:
     kind: Service
     weight: 100
@@ -40,7 +40,7 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
   path: "/ga4gh/wes/v1"
-status: 
+status:
   ingress: []
 {{ end }}
 
@@ -54,7 +54,7 @@ kind: Route
 metadata:
   name: {{ .Values.wes.appName }}-certbot
 spec:
-  host: {{ .Values.wes.appName }}.{{ .Values.applicationDomain }}
+  host: {{ .Release.Namespace }}.{{ .Values.applicationDomain }}
   path: "/.well-known"
   port:
     targetPort: 8080
