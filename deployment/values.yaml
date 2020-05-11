@@ -6,6 +6,13 @@ applicationDomain: c03.k8s-popup.csc.fi
 clusterType: openshift  # either 'kubernetes' or 'openshift'
 tlsSecret: mytls-secret
 
+authorization_required: False
+
+storage:
+    permanent_dir: '/data/output'
+    tmp_dir: '/data/tmp'
+    remote_storage_url: 'ftp://ftp-private.ebi.ac.uk/upload/foivos'
+
 autocert:
   createJob: "true"  # actually create autocert cronjob
   schedule: "0 0 1 */2 *"  # cronjob schedule
@@ -26,6 +33,15 @@ wes:
   netrcLogin: defaultnetrclogin
   netrcPassword: defaultnetrcpassword
   volumeSize: 1Gi
+
+service_info:
+  contact_info: 'https://github.com/elixir-cloud-aai/cwl-WES'
+  auth_instructions_url: 'https://www.elixir-europe.org/services/compute/aai'
+  tags:
+    known_tes_endpoints: 'https://tes.tsi.ebi.ac.uk/|https://tes-dev.tsi.ebi.ac.uk/|https://csc-tesk.c03.k8s-popup.csc.fi/|https://tesk.c01.k8s-popup.csc.fi/|https://csc-tesk-noauth.c03.k8s-popup.csc.fi/'
+
+tes:
+  url: 'https://csc-tesk-noauth.c03.k8s-popup.csc.fi/'
 
 celeryWorker:
   appName: celery-worker

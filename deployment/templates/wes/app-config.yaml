@@ -1,0 +1,30 @@
+apiVersion: v1
+data:
+  app_config.yaml: |
+    # General server/service settings
+    server:
+        debug: True
+
+    # Security settings
+    security:
+        authorization_required: {{ .Values.authorization_required }}
+
+    # Storage
+    storage:
+        permanent_dir: {{ .Values.storage.permanent_dir | quote }}
+        tmp_dir: {{ .Values.storage.tmp_dir | quote }}
+        remote_storage_url: {{ .Values.storage.remote_storage_url | quote }}
+
+    # WES service info settings
+    service_info:
+        contact_info: {{ .Values.service_info.contact_info | quote }}
+        auth_instructions_url: {{ .Values.service_info.auth_instructions_url | quote }}
+        tags:
+            known_tes_endpoints: {{ .Values.service_info.tags.known_tes_endpoints | quote }}
+
+    # TES server
+    tes:
+        url: '{{ .Values.tes.url }}'
+kind: ConfigMap
+metadata:
+  name: app-config
