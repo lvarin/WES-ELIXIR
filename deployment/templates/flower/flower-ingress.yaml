@@ -18,7 +18,7 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: {{ .Values.flower.appName }}
+    name: {{ .Values.flower.appName }}-{{ .Values.flower.appName }}
     weight: 100
   wildcardPolicy: None
 status:
