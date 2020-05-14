@@ -22,9 +22,9 @@ flower:
 wes:
   appName: cwlwes
   image: elixircloud/cwl-wes:latest
-  netrcMachine: defaultmachine
-  netrcLogin: defaultnetrclogin
-  netrcPassword: defaultnetrcpassword
+  #netrcMachine: defaultmachine
+  #netrcLogin: defaultnetrclogin
+  #netrcPassword: defaultnetrcpassword
   volumeSize: 1Gi
 
 celeryWorker:
