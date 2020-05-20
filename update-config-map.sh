@@ -87,6 +87,4 @@ done
 
 echo " All Done"
 
-sleep 3600
-
 
