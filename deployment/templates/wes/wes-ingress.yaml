@@ -92,7 +92,11 @@ spec:
             - name: EMAIL
               value: {{ .Values.autocert.email }}
             - name: DOMAINS
+            {{- if eq .Values.clusterType "openshift" }}
+              value: {{ .Release.Namespace }}.{{ .Values.applicationDomain }}
+            {{- else }}
               value: {{ .Values.wes.appName }}.{{ .Values.applicationDomain }}
+            {{- end }}
             - name: SECRET
               value: {{ .Values.tlsSecret }}
           restartPolicy: OnFailure
@@ -134,13 +138,6 @@ spec:
       restartPolicy: OnFailure
       serviceAccountName: {{ .Values.wes.appName }}-autoadmin
 status: {}
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  creationTimestamp: null
-  name: {{ .Values.wes.appName }}-autoadmin
 
 ---
 apiVersion: v1
